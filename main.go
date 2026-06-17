@@ -10,4 +10,9 @@ func main(){
 		fmt.Print("Please input an arguement")
 		return
 	}
+	command := os.Args[1]
+
+	
+
+
 }
