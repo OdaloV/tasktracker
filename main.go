@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -15,6 +16,14 @@ func main() {
 
 	switch command {
 	case "add":
+		//check if description is provided
+		if len(os.Args) < 3 {
+			fmt.Println("Error: Please provide  description")
+			return
+		}
+		// Join all arguments
+		description := strings.Join(os.Args[2:], " ")
+		addTask(description)
 
 	case "list":
 	case "update":
