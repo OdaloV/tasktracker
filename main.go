@@ -26,6 +26,17 @@ func main() {
 		addTask(description)
 
 	case "list":
+		status := ""
+		if len(os.Args) >= 3 {
+			status = os.Args[2]
+			// Validate status
+			if status != "todo" && status != "in-progress" && status != "done" {
+				fmt.Printf("Error: Invalid status '%s'. Use: todo, in-progress, or done\n", status)
+				return
+			}
+		}
+		listTasks(status)
+
 	case "update":
 	case "delete":
 	case "in progress":
