@@ -1,3 +1,12 @@
+package main
+
+import (
+	"encoding/json"
+	"errors"
+	"io"
+	"os"
+)
+
 func loadTask(filename string) ([]Task, error) {
 	//check if file exists
 	_, err := os.Lstat(filename)
