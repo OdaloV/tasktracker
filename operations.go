@@ -9,7 +9,7 @@ func addTask(description string) {
 	//load task
 	tasks, err := loadTask(`task.json`)
 	if err != nil {
-		fmt.Println("Error loading file:", err)
+		fmt.Println("Error loading file:\n", err)
 		return
 	}
 	//while crating new task ,assign new id
@@ -34,7 +34,7 @@ func addTask(description string) {
 	tasks = append(tasks, task)
 	err = saveTask("tasks.json", tasks)
 	if err != nil {
-		fmt.Println("Error saving file:", err)
+		fmt.Println("Error saving file:\n", err)
 		return
 	}
 	fmt.Println("Task added successfully!")
@@ -71,4 +71,35 @@ func updateTask(id int64, description string) {
 	}
 
 	fmt.Printf("Task %d updated successfully\n", id)
+}
+func deleteTask(id int64) {
+	tasks, err := loadTask("tasks.json")
+	if err != nil {
+		fmt.Printf("Error loading tasks: %v\n", err)
+		return
+	}
+
+	// Create new slice without the task
+	found := false
+	newTasks := []Task{}
+	for _, task := range tasks {
+		if task.ID == id {
+			found = true
+			continue
+		}
+		newTasks = append(newTasks, task)
+	}
+
+	if !found {
+		fmt.Printf("Task with ID %d not found\n", id)
+		return
+	}
+
+	err = saveTask("tasks.json", newTasks)
+	if err != nil {
+		fmt.Printf("Error saving task: %v\n", err)
+		return
+	}
+
+	fmt.Printf("Task %d deleted successfully\n", id)
 }
