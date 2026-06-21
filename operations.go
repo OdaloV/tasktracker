@@ -103,3 +103,34 @@ func deleteTask(id int64) {
 
 	fmt.Printf("Task %d deleted successfully\n", id)
 }
+
+func markTask(id int64, status string) {
+	tasks, err := loadTask("tasks.json")
+	if err != nil {
+		fmt.Printf("Error loading tasks: %v\n", err)
+		return
+	}
+
+	found := false
+	for i := range tasks {
+		if tasks[i].ID == id {
+			tasks[i].Status = status
+			tasks[i].UpdatedAt = time.Now()
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		fmt.Printf("Task with ID %d not found\n", id)
+		return
+	}
+
+	err = saveTask("tasks.json", tasks)
+	if err != nil {
+		fmt.Printf("Error saving task: %v\n", err)
+		return
+	}
+
+	fmt.Printf("Task %d marked as '%s'\n", id, status)
+}
