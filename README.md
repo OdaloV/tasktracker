@@ -3,7 +3,7 @@
 A simple command-line task tracker built in Go. Manage your tasks from the terminal with persistent.
 project URL
 
-**Project URL:** https://github.com/OdaloV/tasktracker
+**Project URL:** [https://github.com/OdaloV/tasktracker](https://roadmap.sh/projects/task-tracker)
 ---
 
 ## Features
