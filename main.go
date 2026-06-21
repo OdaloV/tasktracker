@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -38,6 +39,17 @@ func main() {
 		listTasks(status)
 
 	case "update":
+		if len(os.Args) < 4 {
+			fmt.Println("Error: Please provide ID and new description")
+			return
+		}
+		id, err := strconv.ParseInt(os.Args[2], 10, 64)
+		if err != nil {
+			fmt.Println("Error: Invalid ID")
+			return
+		}
+		description := strings.Join(os.Args[3:], " ")
+		updateTask(id, description)
 	case "delete":
 	case "in progress":
 	case "done":
