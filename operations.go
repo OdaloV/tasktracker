@@ -40,3 +40,35 @@ func addTask(description string) {
 	fmt.Println("Task added successfully!")
 
 }
+
+func updateTask(id int64, description string) {
+	tasks, err := loadTask("tasks.json")
+	if err != nil {
+		fmt.Printf("Error loading tasks", err)
+		return
+	}
+
+	found := false
+	for i := range tasks {
+		if tasks[i].ID == id {
+			tasks[i].Description = description
+			tasks[i].UpdatedAt = time.Now()
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		fmt.Printf("Task with ID %d not found\n", id)
+		return
+	}
+
+	// Save changes to file
+	err = saveTask("tasks.json", tasks)
+	if err != nil {
+		fmt.Printf("Error saving task: %v\n", err)
+		return
+	}
+
+	fmt.Printf("Task %d updated successfully\n", id)
+}
