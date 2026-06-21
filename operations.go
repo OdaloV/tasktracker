@@ -2,26 +2,29 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
 
 func addTask(description string) {
-	//load task
-	tasks, err := loadTask(`task.json`)
+	tasks, err := loadTask("tasks.json")
 	if err != nil {
-		fmt.Println("Error loading file:\n", err)
+		fmt.Printf("Error loading tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
-	//while crating new task ,assign new id
+
 	var newId int64 = 1
-	maxID := tasks[0].ID
-	for _, task := range tasks {
-		if task.ID > maxID {
-			maxID = task.ID
+	if len(tasks) > 0 {
+		maxID := tasks[0].ID
+		for _, task := range tasks {
+			if task.ID > maxID {
+				maxID = task.ID
+			}
 		}
+		newId = maxID + 1
 	}
-	newId = maxID + 1
-	//create task
+
 	now := time.Now()
 	task := Task{
 		ID:          newId,
@@ -32,19 +35,22 @@ func addTask(description string) {
 	}
 
 	tasks = append(tasks, task)
+
 	err = saveTask("tasks.json", tasks)
 	if err != nil {
-		fmt.Println("Error saving file:\n", err)
+		fmt.Printf("Error saving tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
-	fmt.Println("Task added successfully!")
 
+	fmt.Printf("Task added successfully (ID: %d)\n", task.ID)
 }
 
 func updateTask(id int64, description string) {
 	tasks, err := loadTask("tasks.json")
 	if err != nil {
-		fmt.Printf("Error loading tasks", err)
+		fmt.Printf("Error loading tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
 
@@ -60,26 +66,28 @@ func updateTask(id int64, description string) {
 
 	if !found {
 		fmt.Printf("Task with ID %d not found\n", id)
+		os.Exit(1)
 		return
 	}
 
-	// Save changes to file
 	err = saveTask("tasks.json", tasks)
 	if err != nil {
-		fmt.Printf("Error saving task: %v\n", err)
+		fmt.Printf("Error saving tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
 
 	fmt.Printf("Task %d updated successfully\n", id)
 }
+
 func deleteTask(id int64) {
 	tasks, err := loadTask("tasks.json")
 	if err != nil {
 		fmt.Printf("Error loading tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
 
-	// Create new slice without the task
 	found := false
 	newTasks := []Task{}
 	for _, task := range tasks {
@@ -92,12 +100,14 @@ func deleteTask(id int64) {
 
 	if !found {
 		fmt.Printf("Task with ID %d not found\n", id)
+		os.Exit(1)
 		return
 	}
 
 	err = saveTask("tasks.json", newTasks)
 	if err != nil {
-		fmt.Printf("Error saving task: %v\n", err)
+		fmt.Printf("Error saving tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
 
@@ -108,6 +118,7 @@ func markTask(id int64, status string) {
 	tasks, err := loadTask("tasks.json")
 	if err != nil {
 		fmt.Printf("Error loading tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
 
@@ -123,12 +134,14 @@ func markTask(id int64, status string) {
 
 	if !found {
 		fmt.Printf("Task with ID %d not found\n", id)
+		os.Exit(1)
 		return
 	}
 
 	err = saveTask("tasks.json", tasks)
 	if err != nil {
-		fmt.Printf("Error saving task: %v\n", err)
+		fmt.Printf("Error saving tasks: %v\n", err)
+		os.Exit(1)
 		return
 	}
 
