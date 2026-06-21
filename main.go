@@ -61,8 +61,19 @@ func main() {
 			return
 		}
 		deleteTask(id)
-	case "in progress":
+	case "inprogress":
+		if len(os.Args) < 3 {
+			fmt.Println("Error: Please provide task ID")
+			return
+		}
+		id, err := strconv.ParseInt(os.Args[2], 10, 64)
+		if err != nil {
+			fmt.Println("Error: Invalid ID")
+			return
+		}
+		markTask(id, "in-progress")
 	case "done":
+
 	default:
 
 	}
