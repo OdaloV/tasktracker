@@ -1,7 +1,7 @@
 # Task Tracker CLI
 
 A simple command-line task tracker built in Go. Manage your tasks from the terminal with persistent.
-
+Project URL - https://github.com/OdaloV/tasktracker
 ---
 
 ## Features
